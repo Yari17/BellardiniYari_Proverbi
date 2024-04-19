@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Room Demo</string>
-    <string name="message">Clicca per leggere</string>
-    <string name="title">Proverebi a caso</string>
+    <string name="app_name">Proverbium</string>
+    <string name="message">Premere qui non genererà un proverbio casuale</string>
+    <string name="title">Proverbium</string>
+    <string name="filterPlaceholder">"Scrivi qualcosa"</string>
+    <string name="generateBtn">"Genera un proverbio casuale"</string>
 </resources>
