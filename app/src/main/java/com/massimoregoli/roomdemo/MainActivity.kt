@@ -75,32 +75,63 @@ import androidx.compose.ui.unit.sp
 import com.massimoregoli.roomdemo.db.DbProverb
 import com.massimoregoli.roomdemo.db.Repository
 import com.massimoregoli.roomdemo.ui.theme.bigFontSize
+import com.massimoregoli.roomdemo.ui.theme.bigFontSizeLand
 import com.massimoregoli.roomdemo.ui.theme.buttonTextSize
+import com.massimoregoli.roomdemo.ui.theme.buttonTextSizeLand
 import com.massimoregoli.roomdemo.ui.theme.fontSize
+import com.massimoregoli.roomdemo.ui.theme.fontSizeLand
 import com.massimoregoli.roomdemo.ui.theme.iconSize
 import com.massimoregoli.roomdemo.ui.theme.lineHeight
 import com.massimoregoli.roomdemo.ui.theme.searchFontSize
+import com.massimoregoli.roomdemo.ui.theme.searchFontSizeLand
 import com.massimoregoli.roomdemo.ui.theme.smallPadding
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var proverb by rememberSaveable { mutableStateOf("") }
+            var configuration = LocalConfiguration.current
+            when (configuration.orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> {
+                    var proverb by rememberSaveable { mutableStateOf("") }
 
-            val context = LocalContext.current
-            val db = DbProverb.getInstance(context)
-            val repository = Repository(db.proverbDao())
-            RoomDemoTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color(26, 22, 37) // MaterialTheme.colorScheme.background
-                ) {
-                    ShowProverb(proverb) {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            val p = repository.readFilteredNext("%$it%", 0)
-                            proverb =
-                                p?.text ?: "C'è stato un problema, perfavore riavvia l'applicazione"
+                    val context = LocalContext.current
+                    val db = DbProverb.getInstance(context)
+                    val repository = Repository(db.proverbDao())
+                    RoomDemoTheme {
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = Color(26, 22, 37) // MaterialTheme.colorScheme.background
+                        ) {
+                            ShowProverbPortrait(proverb) {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    val p = repository.readFilteredNext("%$it%", 0)
+                                    proverb =
+                                        p?.text ?: "C'è stato un problema, perfavore riavvia l'applicazione"
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Configuration.ORIENTATION_LANDSCAPE -> {
+                    var proverb by rememberSaveable { mutableStateOf("") }
+
+                    val context = LocalContext.current
+                    val db = DbProverb.getInstance(context)
+                    val repository = Repository(db.proverbDao())
+                    RoomDemoTheme {
+                        Surface(
+                            modifier = Modifier.fillMaxSize(),
+                            color = Color(26, 22, 37) // MaterialTheme.colorScheme.background
+                        ) {
+                            ShowProverbLandscape(proverb) {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    val p = repository.readFilteredNext("%$it%", 0)
+                                    proverb =
+                                        p?.text ?: "C'è stato un problema, perfavore riavvia l'applicazione"
+                                }
+                            }
                         }
                     }
                 }
@@ -108,156 +139,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
-@Composable
-fun ShowProverb(text: String, onclick: (filter: String) -> Unit) {
-    var filter by rememberSaveable {
-        mutableStateOf("")
-    }
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val focusManager = LocalFocusManager.current
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Column {
-            Spacer(modifier = Modifier.height(50.dp))
-            Text(
-                text = "Proverbium",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(smallPadding)
-                    .clickable {
-                        keyboardController?.hide()
-                        focusManager.clearFocus()
-                    },
-                style = TextStyle(
-                    shadow = Shadow(
-                        color = Color.Black,
-                        offset = Offset(11f, 11f),
-                        blurRadius = 2f
-                    )
-                ),
-                textAlign = TextAlign.Center,
-                fontSize = bigFontSize,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color.Red,
-                lineHeight = lineHeight,
-                fontFamily = titleFont()
-
-            )
-        }
-        Spacer(modifier = Modifier
-            .height(40.dp)
-            .clickable {
-                keyboardController?.hide()
-                focusManager.clearFocus()
-            })
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                keyboardController?.hide()
-                focusManager.clearFocus()
-            }) {
-            Row(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    modifier = Modifier
-                        .padding(smallPadding)
-                        .wrapContentWidth(Alignment.CenterHorizontally)
-                        .shadow(elevation = 10.dp, shape = RoundedCornerShape(22.dp)),
-                    value = filter,
-                    maxLines = 1,
-                    shape = RoundedCornerShape(22.dp),
-                    onValueChange = {
-                        filter = it
-                    },
-                    placeholder = {
-                        Text(
-                            text = stringResource(id = (R.string.filterPlaceholder)),
-                            textAlign = TextAlign.Center,
-                            fontFamily = searchFont(),
-                            color = Color.White,
-                            fontSize = searchFontSize
-                        )
-                    },
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                    keyboardActions = KeyboardActions(onSearch = {
-                        keyboardController?.hide()
-                        focusManager.clearFocus()
-                        onclick(filter)
-                    }),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedTextColor = Color.Black,
-                        focusedBorderColor = Color(101, 80, 164),
-                        cursorColor = Color.Red,
-                        focusedTrailingIconColor = Color.White
-
-                    ),
-
-                    textStyle = TextStyle(
-                        color = Color.White,
-                        fontFamily = searchFont(), fontSize = searchFontSize
-                    ),
-                    trailingIcon = {
-                        Icon(Icons.Rounded.Search,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(iconSize, iconSize)
-                                .clickable {
-                                    onclick(filter)
-                                    keyboardController?.hide()
-                                })
-                    }
-                )
-
-            }
-        }
-        Spacer(modifier = Modifier.height(5.dp))
-        Text(
-            text = if (text == "") {
-                stringResource(id = (R.string.message))
-            } else {
-                text
-            },
-            modifier = Modifier
-                .height(400.dp)
-                .fillMaxWidth()
-                .padding(smallPadding)
-                .padding(top = 1.dp)
-                .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
-                .padding(smallPadding * 2)
-                .defaultMinSize(minHeight = 90.dp)
-                .wrapContentHeight(align = Alignment.CenterVertically),
-            textAlign = TextAlign.Center,
-            fontSize = fontSize,
-            fontStyle = FontStyle.Italic,
-            lineHeight = lineHeight,
-            fontFamily = textFont(),
-            fontWeight = FontWeight(20),
-            color = Color.White
-        )
-        fun casualPick() {
-            keyboardController?.hide()
-            focusManager.clearFocus()
-            onclick(filter)
-        }
-        Spacer(modifier = Modifier.height(60.dp))
-        Button(
-            onClick = { casualPick() },
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(
-                    smallPadding
-                )
-                .height(70.dp)
-                .width(200.dp)
-        ) {
-            Text(text = stringResource(id = R.string.generateBtn), fontSize= buttonTextSize, fontFamily = titleFont(), textAlign = TextAlign.Center)
-        }
-    }
-}
-
 @Composable
 fun titleFont(): FontFamily {
     val assets = LocalContext.current.assets
