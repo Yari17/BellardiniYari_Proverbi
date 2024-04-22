@@ -1,5 +1,6 @@
 package com.massimoregoli.roomdemo
 
+import android.annotation.SuppressLint
 import android.widget.Space
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -55,12 +56,10 @@ import com.massimoregoli.roomdemo.ui.theme.lineHeight
 import com.massimoregoli.roomdemo.ui.theme.searchFontSizeLand
 import com.massimoregoli.roomdemo.ui.theme.smallPadding
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun ShowProverbLandscape(text: String, onclick: (filter: String) -> Unit) {
-    var filter by rememberSaveable {
-        mutableStateOf("")
-    }
+fun ShowProverbLandscape(text: String,filter: String,onChangeName: (String)->Unit, onclick: (filter: String) -> Unit) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     Column(
@@ -99,14 +98,16 @@ fun ShowProverbLandscape(text: String, onclick: (filter: String) -> Unit) {
                 focusManager.clearFocus()
             })
         Row {
-            Column(modifier = Modifier.width(350.dp)
+            Column(modifier = Modifier
+                .width(350.dp)
                 .clickable {
                     keyboardController?.hide()
                     focusManager.clearFocus()
                 }){
                 Row() {
                     OutlinedTextField(
-                        modifier = Modifier.width(340.dp)
+                        modifier = Modifier
+                            .width(340.dp)
                             .padding(smallPadding)
                             .wrapContentWidth(Alignment.CenterHorizontally)
                             .shadow(elevation = 10.dp, shape = RoundedCornerShape(22.dp)),
@@ -114,7 +115,7 @@ fun ShowProverbLandscape(text: String, onclick: (filter: String) -> Unit) {
                         maxLines = 1,
                         shape = RoundedCornerShape(22.dp),
                         onValueChange = {
-                            filter = it
+                            onChangeName(it)
                         },
                         placeholder = {
                             Text(

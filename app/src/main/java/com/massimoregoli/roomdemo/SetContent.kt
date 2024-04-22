@@ -6,12 +6,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModel
+import com.massimoregoli.roomdemo.ShowProverbLandscape
+import com.massimoregoli.roomdemo.ShowProverbPortrait
 import com.massimoregoli.roomdemo.db.DbProverb
 import com.massimoregoli.roomdemo.db.Repository
 import com.massimoregoli.roomdemo.ui.theme.RoomDemoTheme
@@ -22,6 +26,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun Content(){
     var proverb by rememberSaveable { mutableStateOf("") }
+    var filter by rememberSaveable{
+        mutableStateOf("")
+    }
     val context = LocalContext.current
     val db = DbProverb.getInstance(context)
     val repository = Repository(db.proverbDao())
@@ -34,7 +41,7 @@ fun Content(){
                     modifier = Modifier.fillMaxSize(),
                     color = Color(26, 22, 37) // MaterialTheme.colorScheme.background
                 ) {
-                    ShowProverbPortrait(proverb) {
+                    ShowProverbPortrait(proverb, filter, onChangeName = {filter=it}) {
                         CoroutineScope(Dispatchers.IO).launch {
                             val p = repository.readFilteredNext("%$it%", 0)
                             proverb =
@@ -52,7 +59,7 @@ fun Content(){
                     modifier = Modifier.fillMaxSize(),
                     color = Color(26, 22, 37) // MaterialTheme.colorScheme.background
                 ) {
-                    ShowProverbLandscape(proverb) {
+                    ShowProverbLandscape(proverb,filter, onChangeName = {filter=it}) {
                         CoroutineScope(Dispatchers.IO).launch {
                             val p = repository.readFilteredNext("%$it%", 0)
                             proverb =

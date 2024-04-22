@@ -57,10 +57,7 @@ import com.massimoregoli.roomdemo.ui.theme.smallPadding
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun ShowProverbPortrait(text: String, onclick: (filter:String) -> Unit) {
-    var filter by rememberSaveable {
-        mutableStateOf("")
-    }
+fun ShowProverbPortrait(text: String,filter: String,onChangeName: (String)->Unit, onclick: (filter:String) -> Unit) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     Column(
@@ -115,7 +112,7 @@ fun ShowProverbPortrait(text: String, onclick: (filter:String) -> Unit) {
                     maxLines = 1,
                     shape = RoundedCornerShape(22.dp),
                     onValueChange = {
-                        filter = it
+                        onChangeName(it)
                     },
                     placeholder = {
                         Text(
