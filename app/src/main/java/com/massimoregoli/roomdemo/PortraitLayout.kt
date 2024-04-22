@@ -26,6 +26,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -56,7 +57,7 @@ import com.massimoregoli.roomdemo.ui.theme.smallPadding
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun ShowProverbPortrait(text: String, onclick: (filter: String) -> Unit) {
+fun ShowProverbPortrait(text: String, onclick: (filter:String) -> Unit) {
     var filter by rememberSaveable {
         mutableStateOf("")
     }
@@ -202,9 +203,10 @@ fun ShowProverbPortrait(text: String, onclick: (filter: String) -> Unit) {
             Text(
                 text = stringResource(id = R.string.generateBtn),
                 fontSize = buttonTextSize,
-                fontFamily = titleFont(),
+                fontFamily = buttonFont(),
                 textAlign = TextAlign.Center
             )
         }
     }
 }
+

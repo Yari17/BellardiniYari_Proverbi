@@ -1,5 +1,6 @@
 package com.massimoregoli.roomdemo
 
+import android.widget.Space
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -70,7 +71,7 @@ fun ShowProverbLandscape(text: String, onclick: (filter: String) -> Unit) {
                 text = "Proverbium",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(smallPadding)
+                    .padding(15.dp)
                     .clickable {
                         keyboardController?.hide()
                         focusManager.clearFocus()
@@ -98,14 +99,14 @@ fun ShowProverbLandscape(text: String, onclick: (filter: String) -> Unit) {
                 focusManager.clearFocus()
             })
         Row {
-            Column(modifier = Modifier
+            Column(modifier = Modifier.width(350.dp)
                 .clickable {
                     keyboardController?.hide()
                     focusManager.clearFocus()
-                }) {
+                }){
                 Row() {
                     OutlinedTextField(
-                        modifier = Modifier
+                        modifier = Modifier.width(340.dp)
                             .padding(smallPadding)
                             .wrapContentWidth(Alignment.CenterHorizontally)
                             .shadow(elevation = 10.dp, shape = RoundedCornerShape(22.dp)),
@@ -133,7 +134,7 @@ fun ShowProverbLandscape(text: String, onclick: (filter: String) -> Unit) {
                         colors = TextFieldDefaults.outlinedTextFieldColors(
                             focusedTextColor = Color.Black,
                             focusedBorderColor = Color(101, 80, 164),
-                            cursorColor = Color.Red,
+                            cursorColor = Color.Cyan,
                             focusedTrailingIconColor = Color.White
 
                         ),
@@ -176,7 +177,7 @@ fun ShowProverbLandscape(text: String, onclick: (filter: String) -> Unit) {
                         Text(
                             text = stringResource(id = R.string.generateBtn),
                             fontSize = buttonTextSizeLand,
-                            fontFamily = titleFont(),
+                            fontFamily = buttonFont(),
                             textAlign = TextAlign.Center
                         )
                     }
