@@ -1,0 +1,21 @@
+
+l
+<app/src/main/java/com/massimoregoli/roomdemo/MainActivity.kt,5/0/508352a60ee537479c31611f3869040f6e5fbb87
+n
+>app/src/main/java/com/massimoregoli/roomdemo/PortraitLayout.kt,f/6/f68675000a57bdf0025e53fb6bed420601c22dd8
+o
+?app/src/main/java/com/massimoregoli/roomdemo/LandscapeLayout.kt,b/3/b390059fcd1d7326756a58569f86613a314ed9b9
+P
+ app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
+j
+:app/src/main/java/com/massimoregoli/roomdemo/SetContent.kt,0/1/01759cb1e26d92932e30c05f74b838098500bd79
+m
+=app/src/main/java/com/massimoregoli/roomdemo/db/DaoProverb.kt,1/b/1b29672cdcc0799abbeba6e7912607fdd56f67a2
+l
+<app/src/main/java/com/massimoregoli/roomdemo/db/DbProverb.kt,6/2/62c97d602e8b13a3841b392ec3f5653150de06c7
+j
+:app/src/main/java/com/massimoregoli/roomdemo/db/Proverb.kt,b/d/bdcde51f86bc1643e37200e3442bccf908c73d21
+m
+=app/src/main/java/com/massimoregoli/roomdemo/db/Repository.kt,e/d/ed6e3190b9c278e64c7a7fb8b68ac4817198f540
+m
+=app/src/main/java/com/massimoregoli/roomdemo/ui/theme/Size.kt,1/4/14a24a23512d554c974ffa4a52c60307da6204f1

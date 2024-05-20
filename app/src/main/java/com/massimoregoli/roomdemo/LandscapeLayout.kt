@@ -1,7 +1,6 @@
 package com.massimoregoli.roomdemo
 
 import android.annotation.SuppressLint
-import android.widget.Space
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -28,10 +27,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -41,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -63,7 +59,8 @@ fun ShowProverbLandscape(text: String,filter: String,onChangeName: (String)->Uni
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
     ) {
         Column {
             Text(
@@ -146,8 +143,9 @@ fun ShowProverbLandscape(text: String,filter: String,onChangeName: (String)->Uni
                         ),
                         trailingIcon = {
                             Icon(
-                                Icons.Rounded.Search,
+                                painter = painterResource(id = R.drawable.loupe),
                                 contentDescription = null,
+                                tint = Color.White,
                                 modifier = Modifier
                                     .size(iconSize, iconSize)
                                     .clickable {
